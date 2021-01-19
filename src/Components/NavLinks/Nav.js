@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import logo from './image/doglogo.png'
 const useStyles=makeStyles({
     navbar:{
         width:'100%',

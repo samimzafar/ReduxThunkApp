@@ -1,21 +1,21 @@
 import { makeStyles } from '@material-ui/styles';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import apiActions from '../Redux/actions/apiActions'
+import * as BreedActions from '../Redux/Action/BreedActions';
 import AddToCart from './AddToCart';
-const useStyles=makeStyles({
-    formStyle:{
+const useStyles = makeStyles({
+    formStyle: {
 
-        display:'flex',
-        padding:'20px 0',
-        justifyContent:'center',
-        flexDirection:'column',
-        '& form':{
+        display: 'flex',
+        padding: '20px 0',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        '& form': {
             display: 'flex',
             width: '90%',
         },
-        '& label':{
-            display:'flex',
+        '& label': {
+            display: 'flex',
             flex: 4,
             color: '#ff2b2b',
             fontSize: '3rem',
@@ -24,9 +24,9 @@ const useStyles=makeStyles({
             lineHeight: 0,
             alignItems: 'center',
             justifyContent: 'center',
-            
+
         },
-        '& select':{
+        '& select': {
             color: 'white',
             padding: '2px 10px',
             fontSize: '1.8rem',
@@ -36,19 +36,19 @@ const useStyles=makeStyles({
             fontFamily: 'Cursive',
             outline: 'none',
         },
-        '& select:hover':{
-            backgroundColor:'white',
-            color:'#581845',
-            cursor:'pointer',
-            transition:'.8s ease-in-out'
+        '& select:hover': {
+            backgroundColor: 'white',
+            color: '#581845',
+            cursor: 'pointer',
+            transition: '.8s ease-in-out'
         },
-        '& option':{
+        '& option': {
             color: 'white',
             fontSize: '1.3rem',
-            fontWeight:'bold',
+            fontWeight: 'bold',
             backgroundColor: '#581845',
         },
-        '& input':{
+        '& input': {
             flex: 1,
             display: 'flex',
             padding: '2px 10px',
@@ -61,43 +61,45 @@ const useStyles=makeStyles({
             fontFamily: 'Cursive',
             outline: 'none',
         },
-        '& input:hover':{
-            backgroundColor:'#581845',
-            color:'white',
-            cursor:'pointer',
-            transition:'.8s ease-in-out'
+        '& input:hover': {
+            backgroundColor: '#581845',
+            color: 'white',
+            cursor: 'pointer',
+            transition: '.8s ease-in-out'
         }
     }
 
 })
-export default function Submit() {
-        const classes=useStyles()
-        const dispatch = useDispatch(); 
-        const [Input, setInput] = useState('african')
-        const handleSubmit=(e)=>{
-            e.preventDefault()
-            dispatch(apiActions(Input))
 
-        }
+const breeds = ["African", "Boxer", "Shiba", "Akita", "Chow"];
+export default function Submit() {
+    const classes = useStyles()
+    const dispatch = useDispatch();
+    const SelectedBreedName = useSelector(state => state.Breed.SelectedBreedName)
+
 
     return (
 
-    <div className={classes.formStyle}>
-            
-        <form onSubmit={handleSubmit} >
+        <div className={classes.formStyle}>
+
             <label>Select the Breed of dog&nbsp;&nbsp;:&nbsp;&nbsp;
-            <select value={Input} onChange={(e)=>{setInput(e.target.value)}}>
-              <option value="african">african</option>
-              <option value="boxer">boxer</option>
-              <option value="shiba">shiba</option>
-              <option value="akita">akita</option>
-              <option value="chow">chow</option>
-            </select>
+            <select value={SelectedBreedName} onChange={
+                    (e) => {
+                    const breed=e.target.value.toLowerCase()
+                    dispatch(BreedActions.SetSelectedBreedName(e.target.value));
+                    dispatch(BreedActions.FetchBreedData(breed))
+                    }}>
+                    {breeds.map((breed) => (
+                        <option value={breed}>
+                            {breed}
+                        </option>
+                    ))}
+
+                </select>
             </label>
-            <input type="submit" value="FETCH" />
-        </form>
-        <AddToCart/>
-        
-    </div>
+
+            <AddToCart />
+
+        </div>
     )
 }
