@@ -9,7 +9,7 @@ const useStyles=makeStyles({
         height:'70px',
         position:'fixed',
         zIndex:2,
-        backgroundColor:'#581845'
+        backgroundColor:'#C70039'
     },
     navbarContainer:{
         width:'100%',
