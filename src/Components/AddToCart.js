@@ -54,18 +54,17 @@ const useStyles=makeStyles({
             color:'#581845',
             transition:'.8s ease-in-out',
             cursor:'pointer'
-            
+        },
+        '& button:disabled':{
+            backgroundColor:'#A1A59B',
+            cursor:'not-allowed',
+            color:'red'
         },
         '& i':{
             fontSize:'1.8rem',
             color:'#ff2b2b'
         },
-        '& i:hover':{
-            backgroundColor:'white',
-            color:'#581845',
-            transition:'.8s ease-in-out',
-            cursor:'pointer'
-        }
+        
         
     },
     
@@ -74,30 +73,41 @@ const useStyles=makeStyles({
 export default function AddToCart() {
     const classes=useStyles()
     
-    const { allUser,cartUser} = useSelector(state=>state.api)
     const dispatch = useDispatch();
-    const {breedName,message} = allUser
-    console.log('cart User = ',cartUser)
-    
+    const cartUser = useSelector(state=>state.Breed.cartUser)
+    const Name=useSelector(state=>state.Breed.Name);
+    const Pic=useSelector(state=>state.Breed.Pic)
 
+    
+    useEffect(()=>{
+
+        console.log('cart = ',cartUser);
+
+    },[cartUser])
     return (
         <div className={classes.AddToCartStyles}> 
             
             <div className={classes.breedNameBtnStyle}>
-            <h2>Breed Name : {breedName}</h2>
+            <h2>Breed Name : {Name}</h2>
 
             <div className={classes.breedBtnStyle}>
             <button
-            onClick={()=>dispatch({type:'To_Cart',payload:{breedName,message}})}
+            onClick={()=>{
+                // cartUser.push([breedName,message]);
+                cartUser.push({Name,Pic})
+                dispatch({type:'To_Cart',payload:cartUser})
+            }}
+            disabled={cartUser.find((i) => i.Name === Name) !== undefined}
             >Add Cart &nbsp;&nbsp;&nbsp;<i class="fas fa-star-half-alt"/>
+
             </button>
-            
+                        
             </div>
 
             </div>
 
             <div className={classes.breedImageStyle}>
-            <img src={message} />
+            <img src={Pic} />
             </div>
             
         </div>

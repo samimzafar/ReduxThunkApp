@@ -29,7 +29,7 @@ const useStyles=makeStyles({
     }
 })
 export default function Nav() {
-    const {cartUser} = useSelector(state => state.api)
+    const cartUser = useSelector(state => state.Breed.cartUser)
     const classes=useStyles()
     return (
         <nav className={classes.navbar}>

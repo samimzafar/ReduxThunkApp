@@ -44,7 +44,7 @@ const useStyles=makeStyles({
 })
 export default function Cart() {
     const classes=useStyles()
-    const {cartUser} = useSelector(state => state.api)
+    const cartUser = useSelector(state => state.Breed.cartUser)
     const dispatch = useDispatch()
     
     
@@ -52,10 +52,10 @@ export default function Cart() {
         <div className={classes.CartStyle}>
             {cartUser?cartUser.map((val,i)=>(
                 <div className={classes.CartDataStyle}>
-                    <img src={val.message}/>
+                    <img src={val.Pic}/>
                 <div className={classes.btnNameStyle}>
-                    <h2>Breed = {val.breedName}</h2>
-                    <button onClick={()=>{dispatch({type:'DEL',payload:val.message})}}>Delete</button>
+                    <h2>Breed = {val.Name}</h2>
+                    <button onClick={()=>{dispatch({type:'DEL',payload:val})}}>Delete</button>
                 </div>
                 </div>
             )):''}                    
